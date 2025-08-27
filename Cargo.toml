@@ -1,0 +1,22 @@
+[package]
+name = "poshlostios-webkitgtk6"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+gtk = {git = "https://github.com/gtk-rs/gtk4-rs.git", package = "gtk4", branch = "main", version = "0.11", features = ["v4_18"]}
+gdk = {git = "https://github.com/gtk-rs/gtk4-rs.git", package = "gdk4", branch = "main", version = "0.11"}
+glib = {git = "https://github.com/gtk-rs/gtk-rs-core.git", branch = "main", version = "0.22"}
+gio = {git = "https://github.com/gtk-rs/gtk-rs-core.git", branch = "main", version = "0.22"}
+reqwest = { version = "0.12.22", features = ["blocking"] }
+clap = { version = "4.5.41", features = ["derive"] }
+
+[dependencies.libadwaita]
+git = "https://gitlab.gnome.org/World/Rust/libadwaita-rs.git"
+rev = "be63f8e079e887025fa73b43a6ff6069b2c5a525"
+
+[dependencies.webkit6]
+# git = "https://gitlab.gnome.org/World/Rust/webkit6-rs.git"
+# rev = "4739225db5dd1b4c44d67d6877b73f8ef334ae29"
+git = "https://git.meex.lol/MeexReay/webkit6-rs.git"
+rev = "9d66323ad2fb0359ce59ebe24bb34b3747816d32"
