@@ -22,6 +22,8 @@ fn create_webview(_window: &ApplicationWindow, uri: &str) -> WebView {
     settings.set_enable_page_cache(false);
     settings.set_disable_web_security(true);
     settings.set_enable_html5_local_storage(true);
+    settings.set_enable_write_console_messages_to_stdout(true);
+
     webview.set_background_color(&RGBA::new(0.0, 0.0, 0.0, 1.0));
 
     webview.load_uri(uri);
