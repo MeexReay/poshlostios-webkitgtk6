@@ -1,16 +1,7 @@
-use std::{
-    fs,
-    path::{Path, PathBuf},
-};
-
-use gdk::{Display, RGBA, builders::RGBABuilder};
-use gio::{Cancellable, ffi::GListStore};
-use glib::{Bytes, GStringPtr, enums::EnumValuesStorage};
-use gtk::{CssProvider, FileDialog, StringObject};
+use gdk::{Display, RGBA};
+use gtk::CssProvider;
 use libadwaita::{self as adw, ApplicationWindow, prelude::AdwApplicationWindowExt};
-use webkit6::{
-    FileChooserRequest, LoadEvent, NetworkProxySettings, NetworkSession, WebView, prelude::*,
-};
+use webkit6::{WebView, prelude::*};
 
 fn load_css() {
     let provider = CssProvider::new();
@@ -23,21 +14,27 @@ fn load_css() {
     );
 }
 
-fn create_webview(window: &ApplicationWindow) -> WebView {
+fn create_webview(_window: &ApplicationWindow, uri: &str) -> WebView {
     let webview = WebView::builder().build();
 
     let settings = WebViewExt::settings(&webview).unwrap();
     settings.set_enable_developer_extras(true);
     settings.set_enable_page_cache(false);
     settings.set_disable_web_security(true);
+    settings.set_enable_html5_local_storage(true);
     webview.set_background_color(&RGBA::new(0.0, 0.0, 0.0, 1.0));
 
-    webview.load_uri("https://meexreay.github.io/poshlostios");
+    webview.load_uri(uri);
 
     webview
 }
 
 fn main() {
+    let uri = std::env::args()
+        .skip(1)
+        .next()
+        .unwrap_or("https://meexreay.github.io/poshlostios".to_string());
+
     let app = adw::Application::builder()
         .application_id("ru.themixray.poshlostios-webkitgtk6")
         .build();
@@ -50,7 +47,7 @@ fn main() {
         window.set_default_size(500, 500);
         window.set_fullscreened(true);
 
-        let webview = create_webview(&window);
+        let webview = create_webview(&window, &uri);
         window.set_content(Some(&webview));
 
         let ctrl_shift_i = gtk::Shortcut::builder()
